@@ -1,0 +1,71 @@
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# C extensions
+*.so
+
+# Django specific files
+*.log
+*.pot
+*.py[cod]
+*.sqlite3
+db.sqlite3
+
+# If you're using migrations
+*/migrations/*
+
+# Ignore media and static files
+/static/
+/media/
+
+# Ignore local settings
+.env
+.env.*
+
+# Ignore virtual environment
+venv/
+env/
+ENV/
+
+# Ignore JetBrains IDE settings
+.idea/
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore any instance of PyCharm/IDEA Python plugin project settings
+*.iml
+.idea/
+.idea/*
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore compiled translations
+*.mo
+
+# Ignore coverage reports
+.coverage
+*.cover
+.hypothesis/
+.tox/
+nosetests.xml
+coverage.xml
+*.coveragerc
+
+# Ignore mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ignore pyre type checker
+.pyre/
+
+# Ignore pip files
+pip-log.txt
+pip-delete-this-directory.txt
+
