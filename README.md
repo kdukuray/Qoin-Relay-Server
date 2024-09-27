@@ -88,7 +88,7 @@ To run this server on your local machine, follow these steps:
 If you encounter issues with the `pqcrypto` library, it may be due to missing compiled C bindings for some of the cryptographic functions. To resolve this, navigate to the `site-packages` folder within your virtual environment and run:
 
 ```bash
-sudo python compile.py
+sudo python3 compile.py
 ```
 
 This should resolve any compilation issues.
