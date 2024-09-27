@@ -8,7 +8,7 @@ from .helperstructs import TransactionStruct, serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 import hashlib
 from .serializers import TransactionSerializer, WalletSerializer
-from .helperfunctions import string_to_b64
+from .helperfunctions import string_to_b64, binary_to_b64
 
 
 @api_view(["GET"])
@@ -57,8 +57,12 @@ def new_transaction(request):
                                       trxn_signature=ntd.get("trxn_signature"))
     # Make sure receiving address exists
     try:
-        receiver_wallet = Wallet.objects.get(public_key=ntd.get("receiver_pub_key"))
-    except:
+
+
+        receiver_pub_key = string_to_b64(ntd.get("receiver_pub_key").replace("\\n", "\n"))
+        receiver_wallet = Wallet.objects.get(public_key=receiver_pub_key)
+    except Exception as e:
+        print(e)
         return Response({"result": "The specified wallet does not exist"}, status=status.HTTP_400_BAD_REQUEST)
 
     new_transaction_obj.save()
@@ -74,7 +78,7 @@ def get_wallet_balance(request, sender_id):
 
 
 @api_view(["GET"])
-def new_wallet(request):
+def new_wallet(request, name):
     """Creates a new wallet"""
     # Generate private key & public key pair
     private_key = Ed25519PrivateKey.generate()
@@ -101,7 +105,7 @@ def new_wallet(request):
     public_key_in_b64 = string_to_b64(public_key)
 
     # Create & save new wallet with private and public key pair
-    wallet_to_create = Wallet(private_key=private_key_in_b64, public_key=public_key_in_b64, balance=1000)
+    wallet_to_create = Wallet(name=name, private_key=private_key_in_b64, public_key=public_key_in_b64, balance=1000)
     wallet_to_create.save()
     payload = {"wallet_id": wallet_to_create.pk, "private_key": private_key, "public_key": public_key,
                "private_key_in_b64": private_key_in_b64, "public_key_in_b64": public_key_in_b64}
@@ -159,7 +163,8 @@ def new_block(request):
             sender_wallet.save()
 
             # For each transaction, credit the transaction receiver
-            receiver_wallet = Wallet.objects.get(public_key=string_to_b64(trxn.receiver_pub_key.replace("\\n", "\n")))
+            receiver_pub_key = string_to_b64(trxn.receiver_pub_key.replace("\\n", "\n"))
+            receiver_wallet = Wallet.objects.get(public_key=receiver_pub_key)
             receiver_wallet.balance += trxn.amount
             receiver_wallet.save()
 

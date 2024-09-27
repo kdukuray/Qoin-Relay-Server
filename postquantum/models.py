@@ -20,6 +20,7 @@ class PQTransaction(models.Model):
 
 
 class PQWallet(models.Model):
+    name= models.CharField(max_length=100, default="John Doe")
     private_key = models.TextField()
     public_key = models.TextField()
     balance = models.IntegerField()

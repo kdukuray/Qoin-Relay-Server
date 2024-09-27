@@ -20,6 +20,7 @@ class Transaction(models.Model):
 
 
 class Wallet(models.Model):
+    name = models.CharField(max_length=100, default='John Doe')
     private_key = models.CharField(max_length=200)
     public_key = models.CharField(max_length=200)
     balance = models.IntegerField()

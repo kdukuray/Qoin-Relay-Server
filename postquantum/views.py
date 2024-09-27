@@ -73,7 +73,7 @@ def get_wallet_balance(request, sender_id):
 
 
 @api_view(["GET"])
-def new_wallet(request):
+def new_wallet(request, name):
     """Creates a new wallet"""
     public_key, private_key = generate_keypair()
 
@@ -82,7 +82,7 @@ def new_wallet(request):
     public_key = binary_to_b64(public_key)
 
     # Create & save new wallet with private and public key pair
-    wallet_to_create = PQWallet(private_key=private_key, public_key=public_key, balance=1000)
+    wallet_to_create = PQWallet(name=name, private_key=private_key, public_key=public_key, balance=1000)
     wallet_to_create.save()
     payload = {"wallet_id": wallet_to_create.pk, "private_key": private_key, "public_key": public_key}
     return Response(payload, status=status.HTTP_200_OK)
