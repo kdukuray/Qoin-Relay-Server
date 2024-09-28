@@ -1,1 +1,1 @@
-web: gunicorn django_project.wsgi
+web: gunicorn qoin_relay_server.wsgi
